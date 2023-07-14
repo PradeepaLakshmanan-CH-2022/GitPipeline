@@ -23,12 +23,12 @@ resource "aws_codebuild_project" "tf-plan" {
 }
 
 resource "aws_codedeploy_app" "code_deploy" {
-  name          = "ConsoleDeployment"
+  name          = "ConsoleAppDeployment"
   compute_platform = "Server"
 }
 resource "aws_codedeploy_deployment_group" "DeployGroup" {
-  app_name               = aws_codedeploy_app.code_deploy.name
-  deployment_group_name  = "ConsoleDeploymentGroup"
+  app_name               = "ConsoleAppDeployment"
+  deployment_group_name  = "ConsoleAppDeploymentGroup"
   service_role_arn      ="arn:aws:iam::606104556660:role/CodeDeployRoleForEc2"  
   deployment_config_name = "CodeDeployDefault.AllAtOnce"
 
@@ -51,7 +51,7 @@ resource "aws_codedeploy_deployment_group" "DeployGroup" {
 
 resource "aws_codepipeline" "cicd_pipeline" {
 
-    name = "CICDPipelineConsoleApplication"
+    name = "GitPipelineConsoleApplication"
     role_arn = aws_iam_role.tf-codepipeline-role.arn
 
     artifact_store {
@@ -72,7 +72,7 @@ resource "aws_codepipeline" "cicd_pipeline" {
       version         = "1"
             output_artifacts = ["SourceArtifact"]
             configuration = {
-                FullRepositoryId = "PradeepaLakshmanan-CH-2022/TerraformRepo"
+                FullRepositoryId = "PradeepaLakshmanan-CH-2022/GitPipeline"
                 BranchName   = "main"
                 ConnectionArn=var.codestar_connector_credentials
                // ConnectionArn = var.codestar_connector_credentials
@@ -110,8 +110,8 @@ resource "aws_codepipeline" "cicd_pipeline" {
     input_artifacts = ["BuildArtifact"]
 
     configuration = {
-      ApplicationName  = "ConsoleDeployment"
-      DeploymentGroupName = "ConsoleDeploymentGroup"
+      ApplicationName  = "ConsoleAppDeployment"
+      DeploymentGroupName = "ConsoleAppDeploymentGroup"
   
     }
   }
