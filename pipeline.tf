@@ -57,7 +57,6 @@ resource "aws_codepipeline" "cicd_pipeline" {
     artifact_store {
         type="S3"
         location = aws_s3_bucket.codepipeline_artifacts.id
-       // location = aws_s3_bucket.codepipeline_artifacts.id
 
     }
 
@@ -75,7 +74,6 @@ resource "aws_codepipeline" "cicd_pipeline" {
                 FullRepositoryId = "PradeepaLakshmanan-CH-2022/GitPipeline"
                 BranchName   = "main"
                 ConnectionArn=var.codestar_connector_credentials
-               // ConnectionArn = var.codestar_connector_credentials
                 OutputArtifactFormat = "CODE_ZIP"
             }
         }
