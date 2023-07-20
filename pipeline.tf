@@ -38,7 +38,7 @@ resource "aws_codedeploy_deployment_group" "DeployGroup" {
   ec2_tag_set {
     ec2_tag_filter {
       key    = "Name"
-      value  = "HTmlec2"
+      value  = "ConsoleInstance"
       type   = "KEY_AND_VALUE"
     }
 
